@@ -73,6 +73,268 @@
         <p>Novus Banking is an American multinational financial service company to tracks branches and processes 5,000 fixed deposit
             applications.</p>
     </section>
+    <section>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-html.min.js"></script>
+
+<H3>Task:</H3>
+<p>Created LWC on record level to fetch Scheme dynamically. This allowed users to populate the scheme and automate the interest rate.</p>
+<img src="/Front-End/HTML-CSS-JS/Asset/img/Novus Banking/InterestScheme.png" alt="Description of Image" width="800" height="600"><br>
+
+<div class="code-container language-javascript">
+<pre><code>
+//JavaScript:
+import { LightningElement, api, wire } from 'lwc';
+import getFd from '@salesforce/apex/FetchScheme.getFd';
+import fetchIntScheme from '@salesforce/apex/FetchScheme.fetchIntScheme';
+import updateFd from '@salesforce/apex/FetchScheme.updateFd';
+import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import FD_Detail_Object from '@salesforce/schema/FD_Details__c';
+import Deposit_Type_Field from '@salesforce/schema/FD_Details__c.Deposit_Type__c';
+import Payout_Freq_Field from '@salesforce/schema/FD_Details__c.Payout_Frequency__c';
+export default class SelectScheme extends LightningElement {
+        @api recordId;
+        customerTypeValue;
+        customerTypeOptions=[];
+        depositTypeValue;
+        depositTypeOptions = [];
+        payoutFreqValue;
+        payoutFreqOptions=[];
+        tenorInMonthsValue;
+        tenorInDaysValue;
+        fdAmountValue;
+        interestRateValue;
+        schemeOptions=[];
+        schemeValue;
+//Customer Type Combobox
+@wire(getFd, {recId:'$recordId'}) 
+fdRecord ({error, data}) {
+    if (error) {
+        console.log(error);
+    } else if (data) {
+       let options=[];
+        options.push({
+            label: data.Customer_Type__c,
+             value: data.Customer_Type__c
+            });
+            this.customerTypeOptions=options;
+            console.log(data.Customer_Type__c);
+        }
+}
+/*get options(){
+return [
+{label: 'New', value: 'new' },
+{label: 'In Progress', value: 'inProgress'},
+{label: 'Finished', value: 'finished'},
+];
+} */
+/*customerTypeOptions=options;
+options*/
+customerTypeHandler(event){
+    this.customerTypeValue = event.target.value;
+}
+/* To be able to get Deposit Type Field Picklist Values from Salesforce without using APEX in LWC, we need to
+use adaptor getPickListValues
+This adaptor accepts two parameters 
+First is recordTypeId -> we will get object, which means I need to import the object from getObject
+Second is the picklist fieldApiName -> import from Schema */
+//With this code, I get object Info
+@wire(getObjectInfo, {objectApiName: FD_Detail_Object})
+fdObject;
+/*fdObject({data, error}){
+    if(data){
+        console.log(data);
+    }else if(error){ 
+        console.log(object);
+}
+} */
+//Deposit Type Combobox
+/*Below code gets deposit type picklist field values using getPicklistValues adapter from salesforce
+to make recordTypeId dynamic i needed object, fdObject.data.defaultRecordTypeId
+imported the picklist field also from schema and named it Deposit_Type_Field */
+ @wire(getPicklistValues, { recordTypeId: '$fdObject.data.defaultRecordTypeId', fieldApiName: Deposit_Type_Field })
+depositTypeData({data,error}){
+    if(data){
+        console.log(data);
+       let options = [];
+        data.values.forEach(e=>{
+            options.push({
+                label:e.label,
+                value:e.value
+            });
+            console.log(`e.label: ${e.label}`);
+            console.log(`e.value: ${e.value}`);
+        })
+        this.depositTypeOptions=options;
+    }else if(error){
+        console.log(error);
+    }      
+}
+depositTypeHandler(event){
+    this.depositTypeValue=event.target.value; 
+    //when the deposit type value is chosen, I need to decide which picklist field values to show to the users 
+    //so we created the pay freq options in dep type handler 
+    let depTypeNum=this.payFreqData.controllerValues[event.target.value];//This code will give us 0 or 1
+    this.payoutFreqOptions=this.payFreqData.values.filter(element=>element.validFor.includes(depTypeNum)); 
+}
+//filter method returns another array depending on a condition
+//filter method accepts another funciton (we prefer to put a arrow function)
+//Payout Frequency Combobox
+@wire(getPicklistValues,{recordTypeId:'$fdObject.data.defaultRecordTypeId', fieldApiName: Payout_Freq_Field})
+payFreqData({data,error}){
+    if(data){
+        console.log(data);
+        this.payFreqData=data;
+    }else if(error){
+        console.log(error);
+    }
+}
+payoutFreqHandler(event){
+    this.payoutFreqValue=event.target.value;
+    console.log(`Pay freq is ${this.payoutFreqValue}`);
+}
+//Tenor In Months
+get tenorInMonthsOptions(){
+    let options=[];
+    for(let i=1;i<13;i++){
+        options.push({
+            label:i.toString(),
+            value:i.toString()
+        })
+    }
+    return options;
+}
+//push is an array method to add a new element to the end of the array.
+tenorInMonthsHandler(event){
+    this.tenorInMonthsValue=event.target.value;
+    console.log(`tenor in months: ${this.tenorInMonthsValue}`);
+}
+//Tenor In Days
+get tenorInDaysOptions(){
+    let options=[];
+    for(let i=1;i<32;i++){
+        options.push({
+            label:i.toString(),
+            value:i.toString()
+        })
+    }
+    return options;
+}
+tenorInDaysHandler(event){
+    this.tenorInDaysValue=event.target.value;
+    console.log(`Tenor in months: ${this.tenorInDaysValue}`);
+}
+fdAmountHandler(event){
+    this.fdAmountValue=event.target.value;
+    console.log(`FD Amount: ${this.fdAmountValue}`);
+}
+/*When you want to connect to apex class as soon as when the page is loaded, you can use wire dectorator. 
+When you want to connect apex when a button is clicked or with any user interaction - use imperative apex. 
+Impoerative apex is created then catch structure. */
+
+fetchSchemeHandler(){
+    let isValid=true;
+    let inputFields=this.template.querySelectorAll('.clsFetchScheme');
+    console.log(inputFields);
+    inputFields.forEach(e=>{
+        if(!e.checkValidity()){
+            e.checkValidity();
+            e.reportValidity();
+            isValid=false;
+        }
+    })
+    if(isValid){
+        fetchIntScheme({
+            depType: this.depositTypeValue, 
+            tenMonths: this.tenorInMonthsValue, 
+            tenDays: this.tenorInDaysValue, 
+            fdAmount: this.fdAmountValue,
+            cusType: this.customerTypeValue
+        })
+            .then(result => {
+               console.log(result);
+               let options=[];
+               result.forEach(e=>{
+                let temObj={};
+                temObj.label=e.Name;
+                temObj.value=e.Id;
+                temObj.intRate=e.Interest_Rate__c; 
+                options.push(temObj);
+               })
+               this.schemeOptions=options;
+            })
+            .catch(error => {
+                console.log(error);
+            }); 
+    }
+} 
+schemeHandler(event){
+    let sch=event.target.value;
+    this.schemeValue=event.target.value;
+    this.schemeOptions.forEach(scheme=>{
+        if(scheme.value==sch){
+            this.schemeValue=scheme.value;
+            this.interestRateValue=scheme.intRate;
+        }
+    })
+} 
+saveHandler(){
+    let isValid=true;
+    let inputFields=this.templatequerySelectorAll('.clsFetchScheme');
+    inputFields.forEach(e=>{
+        if(!e.checkValidity()){
+            e.checkValidity();
+            e.reportValidity();
+            isValid=false;
+        }
+    })
+    isValid=true;
+    inputFields=this.template.querySelectorAll('.clsSave');
+    inputFields.forEach(e=>{
+if(!e.checkValidity()){
+    e.reportValidity();
+    isValid=false;
+}
+    })
+    if(isValid){ 
+        updateFd({
+            fdId:this.recordId,
+            cusType:this.customerTypeValue,
+            depType:this.depositTypeValue,
+            tenMonths:this.tenorInMonthsValue,
+            tenDays:this.tenorInDaysValue,
+            payFreq:this.payoutFreqValue,
+            fdAmount:this.fdAmountValue,
+            insSchemeId:this.schemeValue,
+            intRate:this.interestRateValue
+        }) 
+            .then(result => {
+                console.log(result);
+                this.dispatchEvent(new ShowToastEvent({
+                    title: "Success!",
+                    message: "Successfully Record is Updated!",
+                    variant: "success"
+                }));
+            })
+            .catch(error => {
+                console.log(error);
+                this.dispatchEvent(new ShowToastEvent({
+                    title: "Error!",
+                    message: "We could not update fd record, check error!",
+                    variant: "Error"
+                }));
+            })
+    }
+}
+//When you use imperative apex with dml, dont use cacheable true or use cacheable=false 
+//otherwise it throws too many dml exceptions.
+}
+            </code></pre>
+        </div>
+    </section>
         <p>&copy; 2025 Zaima</p>
     </footer>
 </body>
