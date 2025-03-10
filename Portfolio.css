@@ -71,3 +71,15 @@ footer {
     background: #b28735;
     color: #f6f7ec;
 }
+
+.code-container {
+    max-height: 300px; /* Adjust the height as needed */
+    overflow: auto;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: "Courier New", monospace;
+    white-space: pre-wrap; /* Ensures text wraps properly */
+}
+
