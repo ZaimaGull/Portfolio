@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crinkle Cookie Order</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/Front-End/HTML-CSS-JS/Asset/css/CrinkleCookie.css"/>
+<style>
+    h1{
+        color:pink
+    }
+    body{
+        background: beige;
+    }
+</style>
+</head>
+<body>
+    <nav>
+        <a href="Portfolio.html">Back to Portfolio</a>
+    </nav>
+    <h1>Crinkle Cookie Order Form</h1>
+<form onsubmit="handleSubmit(event)">
+<table border="1">
+<tr>
+<td><label for="Name"><strong>Name</strong></label></td>
+<td><input type="text" name="" id="name" required></td>
+<td rowspan="2"><label for=""><strong>Classic</strong></label>
+<td rowspan="2">
+        <input type="Checkbox" name="Strawberry Shortcake" value="Strawberry Shortcake">
+        <label for="Strawberry Shortcake">Strawberry Shortcake</label><br>
+        <input type="Checkbox" name="Oreo" value="Oreo">
+        <label for="Oreo">Oreo</label><br>
+        <input type="Checkbox" name="Sugar" value="Sugar"> 
+        <label for="Sugar">Sugar</label><br>
+        <input type="Checkbox" name="Chocolate Chip" value="Chocolate Chip">
+        <label for="Chocolate Chip">Chocolate Chip</label></td>
+</tr>
+<tr>
+    <td><label for="Phone"><Strong>Phone</Strong></label></td>
+    <td><input type="Tel" name="PhoneNum" id="Phone" required></td>
+</tr>       
+<tr>
+</td>
+<td rowspan="2"><label for="address"><Strong>Address</Strong></label></td>
+<td rowspan="2"><textarea name="address" id="address" cols="22" rows="4" required></textarea></td>
+</tr>
+<tr>
+    <td rowspan="2"><label for=""><Strong>Seasonal</Strong></label></td>
+    <td rowspan="2">
+    <input type="Checkbox" name="" value="Christmas bundle">
+    <label for="Christmas bundle ">Christmas bundle (8 holiday variety pack) </label><br>
+    <input type="Checkbox" name="Peppermint-Chocolate" value="Peppermint-Chocolate">
+    <label for="Peppermint-Chocolate">Peppermint-Chocolate</label><br>
+    <input type="Checkbox" name="Matcha Dark Chocolate Hershey Kiss" value="Matcha Dark Chocolate Hershey Kiss">
+    <label for="Matcha Dark Chocolate Hershey Kiss">Matcha Dark Chocolate Hershey Kiss</label><br>
+    <input type="Checkbox" name="Gingerbread Man" value="Gingerbread Man">
+    <label for="Gingerbread Man">Gingerbread Man</label></td>           
+</tr>
+<tr>
+    <td rowspan="2"><label for=""><Strong>Drink</Strong></label></td>
+    <td rowspan="2">
+    <input type="Checkbox" name="" value="Coffee">
+    <label for="Coffee">Coffee </label><br>
+    <input type="Checkbox" name="Hot Chocolate" value="Hot Chocolate">
+    <label for="Peppermint-Chocolate">Hot Chocolate</label><br>
+    <input type="Checkbox" name="Matcha Latte" value="Matcha Latte">
+    <label for="Matcha Latte">Matcha Latte</label><br>
+    <input type="Checkbox" name="Yuzu Tea" value="Yuzu Tea">
+    <label for="Yuzu Tea">Yuzu Tea</label></td>     
+</tr>
+</td>
+<tr>
+<td rowspan="2"><label for="Base"><strong>Base of Drink</strong></label></td>
+<td rowspan="2">
+    <input type="Radio" name="Regular Milk" id="Regular Milk">
+    <label for="Regular Milk">Regular Milk</label>
+    <input type="Radio" name="Almond Milk" id="Almond Milk">
+    <label for="Almond Milk">Almond Milk</label>
+    <input type="Radio" name="Water" id="Water">
+    <label for="Water">Water</label></td> </br>
+</td>
+</tr>
+<tr> 
+    <td rowspan="2"><label for="Base"><strong>Temperature of Drink</strong></label></td>
+    <td rowspan="2">
+    <input type="Radio" name="Hot" id="Hot">
+    <label for="Hot">Hot</label>
+    <input type="Radio" name="Cold" id="Cold">
+    <label for="Cold">Cold</label></td>
+</tr>
+<tr>
+    <td><label for="Comment"><i>Comments</i></label></td>
+    <td><textarea name="Comment" id="Comment" cols="40"></textarea></td>
+    </tr>
+    <tr>
+    <td colspan="3"></td>
+    <td><input type="Submit" value="Submit"></td>
+</tr>
+</table>
+</form>
+
+<script>
+    function handleSubmit(event) {
+        // Prevent the default form submission
+        event.preventDefault();
+
+        // Get the required fields
+        const name = document.getElementById('name').value;
+        const phone = document.getElementById('Phone').value;
+        const address = document.getElementById('address').value;
+        
+        // Check if required fields are filled
+        if (!name || !phone || !address) {
+            alert("Please complete all required fields before submitting the form.");
+            return; // Stop the function if validation fails
+        }
+
+        // Trigger the alert message for successful submission
+        alert(`Thank you, ${name}! Your order has been completed. You will receive a text at ${phone} when it's ready.`);
+        
+        // Optionally, you can reset the form after submission
+        document.querySelector('form').reset();
+    }
+</script>
+</body>
+</html>
