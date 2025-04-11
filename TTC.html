@@ -7,56 +7,70 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <style>
-    body {
-        font-family: 'Arial, sans-serif'; 
-        margin: 0;
-        padding: 0;
-        background-color: #f4f4f4; 
-    }
-    header {
-        background-color: #b28735; 
-        color: #f6f7ec; 
-        padding: 15px 20px; 
-        text-align: center; 
-    }
-    nav a {
-        color: #f6f7ec;
-        text-decoration: none; 
-        font-weight: bold; 
-        transition: color 0.3s; 
-    }
-    nav a:hover {
-        color: #ffcc00; 
-    }
-    section {
-        max-width: 900px; 
-        margin: 20px auto; 
-        padding: 20px; 
-        background-color: #fff; 
-        border-radius: 8px; 
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
-    }
-    section h2 {
-        color: #b28735; 
-    }
-    section img {
-        display: block; 
-        margin: 10px auto; 
-        border-radius: 5px; 
-    }
-    section p {
-        line-height: 1.6; 
-        color: #333; 
-    }
-    footer {
-        text-align: center; 
-        padding: 10px 0; 
-        background-color: #b28735; 
-        color: #f6f7ec; 
-        position: relative; 
-        bottom: 0; 
-        width: 100%; 
-    }
+         body {
+            font-family: 'Arial, sans-serif'; 
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4; 
+        }
+        
+        header {
+            background-color: #b28735; 
+            color: #f6f7ec; 
+            padding: 15px 20px; 
+            text-align: center; 
+        }
+        
+        nav a {
+            color: #f6f7ec; 
+            text-decoration: none; 
+            font-weight: bold; 
+            transition: color 0.3s; 
+        }
+        
+        nav a:hover {
+            color: #ffcc00; 
+        }
+        
+        section {
+            max-width: 900px; 
+            margin: 20px auto; 
+            padding: 20px; 
+            background-color: #fff; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+        }
+        
+        section h2 {
+            color: #b28735; 
+        }
+        
+        section img {
+            display: block; 
+            margin: 0 auto; 
+            border-radius: 5px; 
+        }
+        
+        footer {
+            text-align: center; 
+            padding: 10px 0;
+            background-color: #b28735; 
+            color: #f6f7ec; 
+            position: relative; 
+            bottom: 0; 
+            width: 100%;
+        }
+
+        .code-container {
+    max-height: 300px; /* Adjust the height as needed */
+    overflow: auto;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+    font-family: "Courier New", monospace;
+    white-space: pre-wrap; /* Ensures text wraps properly */
+}
 </style>
 <body>
     <header>
@@ -82,6 +96,53 @@
                 <ul>- Created Lightning Message Service (LMS) integration to allow component communication for TTC data visualization across the homepage.</ul></br>
         </ol>
         </p>
+        <div class="code-container language-javascript">
+<pre><code>
+//JavaScript:
+//Story 30
+<template>
+<article class = "slds-card">
+<lightning-map map-markers={mapMarkers} zoom-level="6"
+markers-title="SAdetails">
+</lightning-map>
+</article>/.slds-card
+</template>
+
+//saMap.js
+import {LightningElement, wire} from "lwc";
+import {subscribe, unsubscribe, MessageContext} from "lightning/messageService";
+import SA_LIST_UPDATE_MESSAGE from "@salesforce/messageChannel/SAListUpdate__c";
+export default class SaMap extends LightningElement {
+	mapMarkers = [];
+	subscription = null;
+
+	@wire(MessageContext) messageContext;
+
+	connectedCallback() {
+		this.subscription = subscribe (this.messageContext, SA_LIST_UPDATE_MESSAGE,
+			(message) => {
+				this.handlesAListUpdate(message);
+			});
+	}
+	disconnectedCallback() {
+		unsubscribe(this.subscription);
+		this.subscription = null;
+	}
+	handlesAListUpdate(message){
+		this.mapMarkers = message.sadetails.map((sadetail) => {
+			const Latitude = sadetail.Location__Latitude__s;
+			const Longitude = sadetail.Location__Longitude__s;
+			return{
+				location: {Latitude, Longitude},
+				title: sadetail.Name__c,
+				description: `Coords: ${Latitude}, ${Longitude}`,
+				icon: "standard:people"
+			};
+		});
+	}
+}
+            </code></pre>
+        </div>
     </section>
         <p>&copy; 2025 Zaima</p>
     </footer>
