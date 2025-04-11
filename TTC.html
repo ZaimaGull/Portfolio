@@ -96,6 +96,11 @@
                 <ul>- Created Lightning Message Service (LMS) integration to allow component communication for TTC data visualization across the homepage.</ul></br>
         </ol>
         </p>
+    </section>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-html.min.js"></script>
         <div class="code-container language-javascript">
 <pre><code>
 //JavaScript:
@@ -127,9 +132,9 @@ export default class SaMap extends LightningElement {
 				title: sadetail.Name__c,
 				description: `Coords: ${Latitude}, ${Longitude}`,
 				icon: "standard:people"
-			};
-		});
-	}
+};
+});
+}
 }
             </code></pre>
         </div>
