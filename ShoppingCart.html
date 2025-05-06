@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 0;
+    }
+    h1 {
+      color: #333;
+    }
+    .cart {
+      margin-bottom: 20px;
+    }
+    button {
+      margin: 5px;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .output {
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <h1>Shopping Cart System</h1>
+
+  <div class="cart">
+    <input id="itemInput" type="text" placeholder="Enter item name">
+    <button onclick="addItemFromInput()">Add Item</button>
+    <button onclick="removeLastItem()">Remove Last Item</button>
+    <button onclick="viewCart()">View Cart</button>
+  </div>
+
+  <div class="output" id="output">
+    <p>Cart is empty.</p>
+  </div>
+
+  <script>
+    // JavaScript logic
+let cart = []; // Global cart array
+const maxItems = 5;
+
+// Add an item to the cart
+function addItem(item) {
+  if (cart.length < maxItems) {
+    cart.push(item);
+    displayOutput(`"${item}" has been added to your cart.`);
+  } else {
+    displayOutput("Cart is full! Remove an item to add more.");
+  }
+}
+
+// Add item from input field
+function addItemFromInput() {
+  const itemInput = document.getElementById('itemInput');
+  const item = itemInput.value.trim(); // Get input value
+  if (item) {
+    addItem(item); // Call the addItem function
+    itemInput.value = ''; // Clear input field
+  } else {
+    displayOutput("Please enter an item name.");
+  }
+}
+
+// Remove the last item from the cart
+const removeLastItem = function () {
+  if (cart.length > 0) {
+    let removedItem = cart.pop();
+    displayOutput(`"${removedItem}" has been removed from your cart.`);
+  } else {
+    displayOutput("Cart is already empty!");
+  }
+};
+
+// View items in the cart
+const viewCart = () => {
+  if (cart.length === 0) {
+    displayOutput("Your cart is empty.");
+  } else {
+    displayOutput(`Items in your cart: ${cart.join(", ")}`);
+  }
+};
+
+// Utility function to display messages
+function displayOutput(message) {
+  const outputDiv = document.getElementById('output');
+  outputDiv.innerHTML = `<p>${message}</p>`;
+}
+  </script>
+</body>
+</html>
