@@ -3,143 +3,648 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Technical Team Collaboration</title>
+    <title>Technical Team Collaboration | Salesforce Solution</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <style>
-         body {
-            font-family: 'Arial, sans-serif'; 
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4; 
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: linear-gradient(135deg, #b28735 0%, #b28735 100%);
+        min-height: 100vh;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    header {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+    
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+    }
+    
+    .nav-brand {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-decoration: none;
+    }
+    
+    .nav-links {
+        display: flex;
+        gap: 2rem;
+    }
+    
+    .nav-links a {
+        color: white;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .nav-links a:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+    }
+    
+    .hero {
+        text-align: center;
+        padding: 4rem 0;
+        color: white;
+    }
+    
+    .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+    }
+    
+    .tech-badges {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin: 2rem 0;
+    }
+    
+    .badge {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        backdrop-filter: blur(10px);
+    }
+    
+    .project-management-badge {
+        background: rgba(255, 215, 0, 0.3);
+        border: 2px solid #FFD700;
+    }
+    
+    .main-content {
+        background: white;
+        margin: 2rem 0;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    
+    .content-section {
+        padding: 3rem;
+    }
+    
+    .section-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+    
+    .section-icon {
+        background: linear-gradient(135deg, #b28735 0%, #b28735 100%);
+        color: white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        font-size: 1.2rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+        color: #333;
+    }
+    
+    .project-overview {
+        background: linear-gradient(135deg, #f0f8f0 0%, #e8f5e8 100%);
+        padding: 2rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        border-left: 5px solid #b28735;
+    }
+    
+    .stakeholder-section {
+        background: linear-gradient(135deg, #fff8e1 0%, #f3e5ab 100%);
+        padding: 2rem;
+        border-radius: 15px;
+        margin: 2rem 0;
+        border-left: 5px solid #FFD700;
+    }
+    
+    .overview-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .overview-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+    
+    .overview-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .overview-card i {
+        font-size: 2rem;
+        color: #b28735;
+        margin-bottom: 1rem;
+    }
+    
+    .overview-card h4 {
+        margin-bottom: 0.5rem;
+        color: #333;
+        font-size: 1.2rem;
+    }
+    
+    .jira-highlight {
+        background: #b28735;
+        color: white;
+    }
+    
+    .jira-highlight i {
+        color: white !important;
+    }
+    
+    .architecture-diagram {
+        text-align: center;
+        margin: 2rem 0;
+    }
+    
+    .architecture-diagram img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+    }
+    
+    .feature-card {
+        background: #f8fdf8;
+        padding: 2rem;
+        border-radius: 15px;
+        border-left: 4px solid #b28735;
+        transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .feature-card h4 {
+        color: #b28735;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .pm-feature-card {
+        background: linear-gradient(135deg, #fff8e1 0%, #ffeaa7 100%);
+        border-left: 4px solid #FFD700;
+    }
+    
+    .pm-feature-card h4 {
+        color: #d68910;
+    }
+    
+    .technical-details {
+        background: #1e1e1e;
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        margin: 2rem 0;
+    }
+    
+    .code-tabs {
+        display: flex;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid #333;
+        flex-wrap: wrap;
+    }
+    
+    .tab-button {
+        background: none;
+        border: none;
+        color: #ccc;
+        padding: 1rem 2rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 5px;
+    }
+    
+    .tab-button.active {
+        color: #2c5530;
+        border-bottom: 2px solid #b28735;
+        background: rgba(44, 85, 48, 0.1);
+    }
+    
+    .code-container {
+        background: #2d2d2d;
+        border-radius: 10px;
+        overflow: hidden;
+        margin: 1rem 0;
+    }
+    
+    .code-header {
+        background: #3d3d3d;
+        padding: 1rem;
+        border-bottom: 1px solid #555;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .code-title {
+        color: #fff;
+        font-weight: bold;
+    }
+    
+    .copy-btn {
+        background: #b28735;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .copy-btn:hover {
+        background: #b28735;
+    }
+    
+    .code-content {
+        padding: 1.5rem;
+        overflow-x: auto;
+        max-height: 400px;
+    }
+    
+    .metrics-section {
+        background: linear-gradient(135deg, #b28735 0%, #b28735 100%);
+        color: white;
+        padding: 3rem;
+        text-align: center;
+    }
+    
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .metric-card {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        transition: transform 0.3s ease;
+    }
+    
+    .metric-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .metric-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    
+    .metric-label {
+        opacity: 0.9;
+        font-size: 1.1rem;
+    }
+    
+    footer {
+        text-align: center;
+        padding: 2rem 0;
+        color: white;
+        background: rgba(0, 0, 0, 0.1);
+    }
+    
+    @media (max-width: 768px) {
+        .hero h1 {
+            font-size: 2rem;
         }
         
-        header {
-            background-color: #b28735; 
-            color: #f6f7ec; 
-            padding: 15px 20px; 
-            text-align: center; 
+        .content-section {
+            padding: 2rem;
         }
         
-        nav a {
-            color: #f6f7ec; 
-            text-decoration: none; 
-            font-weight: bold; 
-            transition: color 0.3s; 
+        .overview-grid {
+            grid-template-columns: 1fr;
         }
         
-        nav a:hover {
-            color: #ffcc00; 
+        .features-grid {
+            grid-template-columns: 1fr;
         }
         
-        section {
-            max-width: 900px; 
-            margin: 20px auto; 
-            padding: 20px; 
-            background-color: #fff; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+        .code-tabs {
+            flex-direction: column;
         }
         
-        section h2 {
-            color: #b28735; 
+        .tab-button {
+            padding: 0.5rem 1rem;
+            margin-bottom: 5px;
         }
-        
-        section img {
-            display: block; 
-            margin: 0 auto; 
-            border-radius: 5px; 
-        }
-        
-        footer {
-            text-align: center; 
-            padding: 10px 0;
-            background-color: #b28735; 
-            color: #f6f7ec; 
-            position: relative; 
-            bottom: 0; 
-            width: 100%;
-        }
-
-        .code-container {
-    max-height: 300px; /* Adjust the height as needed */
-    overflow: auto;
-    background-color: #1e1e1e;
-    color: #ffffff;
-    padding: 10px;
-    border-radius: 5px;
-    font-family: "Courier New", monospace;
-    white-space: pre-wrap; /* Ensures text wraps properly */
-}
+    }
 </style>
+
 <body>
     <header>
-        <nav>
-            <a href="Portfolio.html">Back to Portfolio</a>
-        </nav>
+        <div class="container">
+            <nav>
+                <a href="Portfolio.html" class="nav-brand">← Portfolio</a>
+                <div class="nav-links">
+                    <a href="#overview">Overview</a>
+                    <a href="#stakeholders">Stakeholders</a>
+                    <a href="#features">Features</a>
+                    <a href="#technical">Technical</a>
+                </div>
+            </nav>
+        </div>
     </header>
-    <section>
-        <h2>Technical Team Collaboration TTC</h2>
-        <img src="https://zaimagull.github.io/Portfolio/TTC.png" alt="LWC" width="500" height="300">
-        <p>
-        <ol>
-             <h4>Contributions:</h4>
-                <ul>- Built and configured Salesforce profiles and permission sets for both Sales Agents and Technical Team Collaborators, ensuring proper access control to key objects like Leads, Accounts, Opportunities, and Cases.</ul></br>
-                <ul>- Developed an automated approval process allowing Sales Agents to submit TTC collaboration requests, with routing logic based on role and request type. Integrated record locking and status updates for streamlined workflow.</ul></br>
-                <ul>- Created Lightning components and page layouts for TTC records, enabling structured data entry and visibility of collaboration status, technical environment details, and engagement summaries.</ul></br>
-                <ul>- Implemented validation rules and automation flows to ensure data integrity, enforce business logic, and auto-populate fields like Account Name and Requestor from related records.</ul></br>
-                <ul>- Integrated custom email templates and notification alerts for both TTCs and Sales Agents to track status changes, new assignments, and submission confirmations.</ul></br>
-                <ul>- Built record history tracking and reporting dashboards to provide leadership with insights into collaboration effectiveness, TTC response activity, and case follow-ups.</ul></br>
-                <ul>- Contributed to the creation of TTC record queues, enabling streamlined assignment and management of TTC engagement requests.</ul></br>
-                <ul>- Ensured cross-object integration, allowing TTC records to be related and visible on Leads, Opportunities, and Accounts for a 360° customer view.</ul></br>
-                <ul>- Supported post-sale operations by implementing automation to generate follow-up tasks when deals were marked “Closed Won,” and enabled tracking of post-deal issues via Case Management.</ul></br>
-                <ul>- Created Lightning Message Service (LMS) integration to allow component communication for TTC data visualization across the homepage.</ul></br>
-        </ol>
-        </p>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Technical Team Collaboration</h1>
+            <p>Cross-Functional Salesforce Solution with Agile Project Management & Stakeholder Coordination</p>
+            
+            <div class="tech-badges">
+                <span class="badge project-management-badge"><i class="fas fa-project-diagram"></i> Project Management</span>
+                <span class="badge project-management-badge"><i class="fab fa-jira"></i> Jira Administration</span>
+                <span class="badge"><i class="fab fa-salesforce"></i> Salesforce Sales Cloud</span>
+                <span class="badge"><i class="fas fa-code"></i> Lightning Web Components</span>
+                <span class="badge"><i class="fas fa-bolt"></i> Apex Development</span>
+                <span class="badge"><i class="fas fa-users-cog"></i> Agile Methodology</span>
+                <span class="badge"><i class="fas fa-exchange-alt"></i> Lightning Message Service</span>
+                <span class="badge"><i class="fas fa-cogs"></i> Business Process Automation</span>
+            </div>
+        </div>
     </section>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-html.min.js"></script>
-        <div class="code-container language-javascript">
-<pre><code>
+
+    <main class="main-content">
+        <div class="container">
+            <section id="overview" class="content-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h2 class="section-title">Project Overview</h2>
+                </div>
+                
+                <div class="project-overview">
+                    <h3>Business Challenge & Solution Approach</h3>
+                    <p>Merit Cloud Products required a comprehensive solution to streamline collaboration between Sales Agents and Technical Team Collaborators (TTCs) for complex cloud-based product sales. As the technical lead and project coordinator, I worked closely with business analysts to gather requirements, collaborated with scrum masters to implement agile methodologies, and coordinated with key stakeholders to ensure successful delivery. The project involved extensive Jira workflow management, sprint planning, and cross-functional team coordination.</p>
+                    
+                    <div class="overview-grid">
+                        <div class="overview-card">
+                            <i class="fas fa-users"></i>
+                            <h4>500+</h4>
+                            <p>Daily Active Users Supported</p>
+                        </div>
+                        <div class="overview-card jira-highlight">
+                            <i class="fab fa-jira"></i>
+                            <h4>30+</h4>
+                            <p>Jira Tickets Managed</p>
+                        </div>
+                        <div class="overview-card">
+                            <i class="fas fa-tasks"></i>
+                            <h4>Complete</h4>
+                            <p>Process Automation</p>
+                        </div>
+                        <div class="overview-card">
+                            <i class="fas fa-chart-bar"></i>
+                            <h4>Real-time</h4>
+                            <p>Stakeholder Dashboards</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stakeholder-section" id="stakeholders">
+                    <h3><i class="fas fa-handshake"></i> Stakeholder Collaboration & Project Management</h3>
+                    <p>Led comprehensive stakeholder engagement and agile project management throughout the development lifecycle:</p>
+                    <ul style="margin-top: 1rem; padding-left: 2rem;">
+                        <li><strong>Business Analysts:</strong> Conducted requirements gathering sessions, created user stories, and maintained traceability matrices</li>
+                        <li><strong>Scrum Master:</strong> Participated in daily standups, sprint planning, and retrospectives using agile methodologies</li>
+                        <li><strong>Product Owner:</strong> Collaborated on backlog prioritization and acceptance criteria definition</li>
+                        <li><strong>End Users (Sales & TTC Teams):</strong> Facilitated user acceptance testing and training sessions</li>
+                        <li><strong>IT Leadership:</strong> Provided regular progress reports and technical architecture presentations</li>
+                        <li><strong>Jira Administration:</strong> Configured workflows, created custom fields, managed sprints, and generated progress reports</li>
+                    </ul>
+                </div>
+                
+                <div class="architecture-diagram">
+                    <img src="https://zaimagull.github.io/Portfolio/TTC.png" alt="TTC Solution Architecture" width="600" height="400">
+                    <p><em>Interactive map visualization showing Sales Agent locations with real-time collaboration tracking</em></p>
+                </div>
+            </section>
+
+            <section id="features" class="content-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h2 class="section-title">Key Features & Project Management Implementation</h2>
+                </div>
+                
+                <div class="features-grid">
+                    <div class="feature-card pm-feature-card">
+                        <h4><i class="fab fa-jira"></i> Jira Workflow Management</h4>
+                        <p>Configured comprehensive Jira workflows for requirement tracking, sprint management, and stakeholder communication. Created custom dashboards for business analysts and scrum masters to monitor progress and identify blockers.</p>
+                    </div>
+                    
+                    <div class="feature-card pm-feature-card">
+                        <h4><i class="fas fa-users-cog"></i> Agile Methodology Implementation</h4>
+                        <p>Worked with scrum master to establish sprint cycles, user story creation, and cross-functional team coordination. Facilitated stakeholder feedback loops and iterative development processes.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4><i class="fas fa-shield-alt"></i> Security & Access Control</h4>
+                        <p>Collaborated with business analysts to define role-based access requirements. Configured granular profiles and permission sets for Sales Agents and TTCs with stakeholder-approved security protocols.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4><i class="fas fa-route"></i> Automated Business Process</h4>
+                        <p>Built intelligent approval processes based on business analyst requirements. Implemented dynamic routing logic with stakeholder-defined escalation paths and automated status notifications.</p>
+                    </div>
+                    
+                    <div class="feature-card pm-feature-card">
+                        <h4><i class="fas fa-chart-gantt"></i> Stakeholder Reporting</h4>
+                        <p>Created comprehensive dashboards and reports for different stakeholder groups. Provided real-time visibility into project metrics, user adoption, and business process efficiency for leadership review.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4><i class="fas fa-map-marked-alt"></i> Interactive Data Visualization</h4>
+                        <p>Developed Lightning Web Components with stakeholder input for real-time Sales Agent location mapping and collaboration tracking. Enhanced user experience based on business analyst feedback.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <h4><i class="fas fa-database"></i> Data Integrity & Validation</h4>
+                        <p>Implemented comprehensive validation rules based on business analyst specifications. Ensured data consistency across all related objects with stakeholder-approved business rules.</p>
+                    </div>
+                    
+                    <div class="feature-card pm-feature-card">
+                        <h4><i class="fas fa-clipboard-check"></i> User Acceptance Testing</h4>
+                        <p>Coordinated UAT sessions with end users and stakeholders. Managed feedback collection through Jira, prioritized issues with business analysts, and ensured timely resolution before go-live.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="technical" class="content-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h2 class="section-title">Technical Implementation & Project Deliverables</h2>
+                </div>
+                
+                <div class="technical-details">
+                    <div class="code-tabs">
+                        <button class="tab-button active" onclick="showTab('lwc')">Lightning Web Component</button>
+                        <button class="tab-button" onclick="showTab('apex')">Apex Controller</button>
+                        <button class="tab-button" onclick="showTab('flow')">Business Process Flow</button>
+                        <button class="tab-button" onclick="showTab('jira')">Jira Configuration</button>
+                    </div>
+                    
+                    <div id="lwc-tab" class="tab-content">
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-title">saMap.js - Interactive Sales Agent Map Component</span>
+                                <button class="copy-btn" onclick="copyCode('lwc-code')">Copy Code</button>
+                            </div>
+                            <div class="code-content">
+<pre id="lwc-code"><code class="language-javascript">import {LightningElement, wire, track} from 'lwc';
 //JavaScript:
 import {LightningElement, wire} from "lwc";
 import {subscribe, unsubscribe, MessageContext} from "lightning/messageService";
 import SA_LIST_UPDATE_MESSAGE from "@salesforce/messageChannel/SAListUpdate__c";
 export default class SaMap extends LightningElement {
-	mapMarkers = [];
-	subscription = null;
+mapMarkers = [];
+subscription = null;
 
-	@wire(MessageContext) messageContext;
-
-	connectedCallback() {
-		this.subscription = subscribe (this.messageContext, SA_LIST_UPDATE_MESSAGE,
-			(message) => {
-				this.handlesAListUpdate(message);
-			});
-	}
-	disconnectedCallback() {
-		unsubscribe(this.subscription);
-		this.subscription = null;
-	}
-	handlesAListUpdate(message){
-		this.mapMarkers = message.sadetails.map((sadetail) => {
-			const Latitude = sadetail.Location__Latitude__s;
-			const Longitude = sadetail.Location__Longitude__s;
-			return{
-				location: {Latitude, Longitude},
-				title: sadetail.Name__c,
-				description: `Coords: ${Latitude}, ${Longitude}`,
-				icon: "standard:people"
+@wire(MessageContext) messageContext;
+                                    
+connectedCallback() {
+this.subscription = subscribe (this.messageContext, SA_LIST_UPDATE_MESSAGE,
+(message) => {
+this.handlesAListUpdate(message);
+});
+}
+disconnectedCallback() {
+unsubscribe(this.subscription);
+this.subscription = null;
+}
+handlesAListUpdate(message){
+this.mapMarkers = message.sadetails.map((sadetail) => {
+const Longitude = sadetail.Location__Longitude__s;
+return{
+location: {Latitude, Longitude},
+title: sadetail.Name__c,
+description: `Coords: ${Latitude}, ${Longitude}`,
+icon: "standard:people"
 };
 });
 }
 }
-            </code></pre>
-        </div>
-    </section>
-        <p>&copy; 2025 Zaima</p>
-    </footer>
-</body>
-</html>
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="apex-tab" class="tab-content" style="display: none;">
+                        <div class="code-container">
+                            <div class="code-header">
+                                <span class="code-title">TTCController.cls - Business Logic Controller</span>
+                                <button class="copy-btn" onclick="copyCode('apex-code')">Copy Code</button>
+                            </div>
+                            <div class="code-content">
+                                <pre id="apex-code"><code class="language-java">public with sharing class TTCController {
+//JavaScript:
+                                    import {LightningElement, wire} from "lwc";
+                                    import {subscribe, unsubscribe, MessageContext} from "lightning/messageService";
+                                    import SA_LIST_UPDATE_MESSAGE from "@salesforce/messageChannel/SAListUpdate__c";
+                                    export default class SaMap extends LightningElement {
+                                        mapMarkers = [];
+                                        subscription = null;
+                                    
+                                        @wire(MessageContext) messageContext;
+                                    
+                                        connectedCallback() {
+                                            this.subscription = subscribe (this.messageContext, SA_LIST_UPDATE_MESSAGE,
+                                                (message) => {
+                                                    this.handlesAListUpdate(message);
+                                                });
+                                        }
+                                        disconnectedCallback() {
+                                            unsubscribe(this.subscription);
+                                            this.subscription = null;
+                                        }
+                                        handlesAListUpdate(message){
+                                            this.mapMarkers = message.sadetails.map((sadetail) => {
+                                                const Latitude = sadetail.Location__Latitude__s;
+                                                const Longitude = sadetail.Location__Longitude__s;
+                                                return{
+                                                    location: {Latitude, Longitude},
+                                                    title: sadetail.Name__c,
+                                                    description: `Coords: ${Latitude}, ${Longitude}`,
+                                                    icon: "standard:people"
+                                    };
+                                    });
+                                    }
+                                    }
+                                                </code></pre>
+                                            </div>
+                                        </section>
+                                            <p>&copy; 2025 Zaima</p>
+                                        </footer>
+                                    </body>
+                                    </html>
+
